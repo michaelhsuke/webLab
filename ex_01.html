@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>drop down</title>
+    <style>
+        body {
+            padding: 40px;
+        }
+
+        .rotate {
+            transform: rotate(90deg);
+            color: #2ea7e0;
+            font-size: 19px;
+            cursor: pointer;
+        }
+
+        .btn-dropdown {
+            border: none !important;
+            text-align: center;
+        }
+
+        .dropdown {
+            width: 200px;
+        }
+
+        .dropdown-menu {
+            right: 0;
+            min-width: 50px !important;
+            text-align: center !important;
+            padding: 0 !important;
+            background-color: #036eb8 !important;
+            box-shadow: 1px 1px 1px 0 #b5b5b6 inset !important;
+        }
+
+        .delete {
+            display: block;
+            font-size: 12px;
+            background-color: #CDE2F1;
+            outline: none;
+            border-radius: 3px;
+            border: 1px solid #b5b5b6 !important;
+            padding: 8px 0 !important;
+        }
+    </style>
+    <link href="lib/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="dropdown">
+    <div class="btn-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <i class="rotate glyphicon glyphicon-play-circle"></i>
+    </div>
+    <ul class="dropdown-menu">
+        <li><a href="#" class="delete">删除</a></li>
+    </ul>
+</div>
+
+<div class="column-action">
+    <span class="btn-dropdown">
+        <i class=""
+    </span>
+</div>
+
+</body>
+<script src="lib/jquery.js"></script>
+<script src="lib/bootstrap.js"></script>
+</html>
