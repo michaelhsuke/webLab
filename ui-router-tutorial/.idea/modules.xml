@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/webLab.iml" filepath="$PROJECT_DIR$/.idea/webLab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ui-router-tutorial.iml" filepath="$PROJECT_DIR$/.idea/ui-router-tutorial.iml" />
     </modules>
   </component>
 </project>
