@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+<head>
+    <title>AngularJS: UI-Router Abstract State Example</title>
+    <!-- Bootstrap CSS -->
+    <link href="../lib/bootstrap.css" rel="stylesheet">
+</head>
+
+<body class="container">
+<p><i>Best viewed in pop-out mode to see location changes. Click blue button on the right.</i></p>
+
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">Abstract State Example</a>
+        <ul class="nav">
+            <li><a href="#/contacts/list">Go Back to List</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <div class="well" ui-view></div>
+    </div>
+</div>
+<!--jQuery-->
+<script src="../lib/jquery.js"></script>
+<!-- Angular -->
+<script src="../lib/angular.js"></script>
+<!-- Bootstrap -->
+<script src="../lib/bootstrap.js"></script>
+<!-- UI-Router -->
+<script src="../lib/angular-ui-router.js"></script>
+
+<!-- App Script -->
+<script>
+    var myapp = angular.module('myapp', ["ui.router"])
+    myapp.config(function ($stateProvider, $urlRouterProvider) {
+
+        $urlRouterProvider.when("", "/contacts/list");
+        $urlRouterProvider.when("/", "/contacts/list");
+
+        // For any unmatched url, send to /route1
+        $urlRouterProvider.otherwise("/contacts/list");
+
+        $stateProvider
+                .state('contacts', {
+                    abstract: true,
+                    url: '/contacts',
+                    templateUrl: 'contacts.html',
+                    resolve: {
+                        parentResolve: function () {
+                            return {'parentName': 'contacts'}
+                        }
+                    },
+                    data: {
+                        customData1: "Hello",
+                        customData2: "World!"
+                    },
+                    controller: function ($scope, parentResolve) {
+                        $scope.contacts = [{id: 0, name: "Alice"}, {id: 1, name: "Bob"}];
+                    },
+                    onEnter: function () {
+                        console.log("enter contacts");
+                    }
+
+                })
+                .state('contacts.list', {
+                    url: '/list',
+                    // loaded into ui-view of parent's template
+                    templateUrl: 'contacts.list.html',
+                    data: {
+                        // customData1 inherited from 'parent'
+                        // but we'll overwrite customData2
+                        customData2: "UI-Router!"
+                    },
+                    onEnter: function () {
+                        console.log("enter contacts.list");
+                    }
+                })
+                .state('contacts.detail', {
+                    url: '/:id',
+                    // loaded into ui-view of parent's template
+                    templateUrl: 'contacts.detail.html',
+                    // resolve -- added by michael.hsu
+                    resolve: {
+                        foo: function () {
+                            return {'hello': 'world'};
+                        }
+                    },
+//                    data: {
+//                        customData1: 44,
+//                        customData2: "red"
+//                    },
+                    controller: function ($scope, $stateParams, foo, parentResolve, $state, $rootScope) {
+                        $scope.person = $scope.contacts[$stateParams.id];
+//                        console.dir(parentResolve);
+//                        console.log($state.current.data.customData1) // outputs 5;
+//                        console.log($state.current.data.customData2) // outputs "blue";
+                        $rootScope.$on('$stateChangeStart', function (event, toState) {
+                            var greeting = toState.data.customData1 + " " + toState.data.customData2;
+                            console.log(greeting);
+
+                            // Would print "Hello World!" when 'parent' is activated
+                            // Would print "Hello UI-Router!" when 'parent.child' is activated
+                        })
+                    },
+                    onEnter: function () {
+                        console.log("enter contacts.detail");
+                    }
+                })
+    })
+</script>
+
+</body>
+
+</html>
