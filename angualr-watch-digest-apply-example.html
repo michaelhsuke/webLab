@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>$watch, $digest and $apply demo</title>
+</head>
+<body>
+
+<div ng-controller="myController">
+    {{data.time}}
+
+    <br/>
+    <button ng-click="updateTime()">update time - ng-click</button>
+    <button id="updateTimeButton">update time</button>
+</div>
+
+<script src="lib/angular.js"></script>
+<script>
+    var module = angular.module("myApp", []);
+    var myController1 = module.controller("myController", function ($scope) {
+
+        $scope.data = {time: new Date()};
+
+        $scope.updateTime = function () {
+            $scope.data.time = new Date();
+        }
+
+        document.getElementById("updateTimeButton")
+                .addEventListener('click', function () {
+                    $scope.$apply(function() {
+                        console.log("update time clicked");
+                        $scope.data.time = new Date();
+                    });
+                    console.log("update time clicked");
+//                    $scope.data.time = new Date();
+//                    $scope.$digest();
+                });
+    });
+</script>
+</body>
+</html>
