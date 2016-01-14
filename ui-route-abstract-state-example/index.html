@@ -58,8 +58,15 @@
                         customData1: "Hello",
                         customData2: "World!"
                     },
-                    controller: function ($scope, parentResolve) {
+                    controller: function ($scope, parentResolve, $rootScope) {
                         $scope.contacts = [{id: 0, name: "Alice"}, {id: 1, name: "Bob"}];
+                        $rootScope.$on('$stateChangeStart', function (event, toState) {
+                            var greeting = toState.data.customData1 + " " + toState.data.customData2;
+                            console.log(greeting);
+
+                            // Would print "Hello World!" when 'parent' is activated
+                            // Would print "Hello UI-Router!" when 'parent.child' is activated
+                        })
                     },
                     onEnter: function () {
                         console.log("enter contacts");
@@ -98,13 +105,7 @@
 //                        console.dir(parentResolve);
 //                        console.log($state.current.data.customData1) // outputs 5;
 //                        console.log($state.current.data.customData2) // outputs "blue";
-                        $rootScope.$on('$stateChangeStart', function (event, toState) {
-                            var greeting = toState.data.customData1 + " " + toState.data.customData2;
-                            console.log(greeting);
 
-                            // Would print "Hello World!" when 'parent' is activated
-                            // Would print "Hello UI-Router!" when 'parent.child' is activated
-                        })
                     },
                     onEnter: function () {
                         console.log("enter contacts.detail");
