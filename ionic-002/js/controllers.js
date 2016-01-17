@@ -15,7 +15,7 @@ angular.module('ionic-http-auth.controllers', [])
             $scope.loginModal.remove();
         });
     })
-    .controller('LoginCtrl', function ($scope, $http, $state, AuthenticationService) {
+    .controller('LoginCtrl', function ($scope, $http, $state, AuthenticationService, $ionicHistory) {
         $scope.message = '';
 
         $scope.user = {
@@ -28,16 +28,19 @@ angular.module('ionic-http-auth.controllers', [])
         };
 
         $scope.$on('event:auth-loginRequired', function (e, rejection) {
+            //alert('loginRequired');  // tbd
             $scope.loginModal.show();
         });
 
         $scope.$on('event:auth-loginConfirmed', function () {
-            $scope.username = null;
-            $scope.password = null;
+            //alert('loginConfirmed');  // tbd
+            $scope.user.username = null;
+            $scope.user.password = null;
             $scope.loginModal.hide();
         });
 
         $scope.$on('event:auth-login-failed', function (e, status) {
+            //alert('login failed');  // tbd
             var error = 'Login failed.';
             if (status == 401) {
                 error = 'Invalid username or password';
@@ -47,11 +50,16 @@ angular.module('ionic-http-auth.controllers', [])
         });
 
         $scope.$on('event:auth-logout-complete', function () {
-            $state.go('app.home', {}, {reload: true, inherit: false});
+            alert('logout complete');  // tbd
+            //$ionicHistory.clearHistory();  // tbd
+            //$state.go('app.home', {}, {reload: true, inherit: false});
+            $state.go('app.home');
         });
     })
-    .controller('HomeCtrl', function ($ionicViewService) {
-        $ionicViewService.clearHistory();
+    .controller('HomeCtrl', function ($ionicHistory) {
+        //alert($ionicHistory.clearCache());
+        //$ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
     })
     .controller('CustomerCtrl', function ($scope, $state, $http) {
         $scope.customers = {};

@@ -7,6 +7,7 @@ angular.module('ionic-http-auth', ['ionic', 'ngMockE2E', 'ionic-http-auth.servic
         var customers = [{name: 'John Smith'}, {name: 'Tim Johnson'}];
 
         $httpBackend.whenGET('https://customers').respond(function (method, url, data, headers) {
+            alert('https://customers: ' + authorized)
             return authorized ? [200, customers] : [401];
         });
 
@@ -16,6 +17,7 @@ angular.module('ionic-http-auth', ['ionic', 'ngMockE2E', 'ionic-http-auth.servic
         });
 
         $httpBackend.whenPOST('https://logout').respond(function (method, url, data) {
+            alert('https://logout ' + authorized);
             authorized = false;
             return [200];
         });
